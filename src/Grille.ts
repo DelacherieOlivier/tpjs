@@ -90,11 +90,13 @@ export class Grille implements IGrille{
     dessineBlocks() {
         for (let i = 0; i < this.data.length; i++) {
             for (let j = 0; j < this.data[i].length; j++) {
-                const x = j * this.blockWidth
-                const y = i * this.blockHeight
                 const blockValue = this.data[i][j]
-                this._ctx.fillStyle = this.blockStyles[blockValue]
-                this._ctx.fillRect(x, y, this.blockWidth, this.blockHeight)
+                if (blockValue == 1){
+                    const x = j * this.blockWidth
+                    const y = i * this.blockHeight
+                    this._ctx.fillStyle = this.blockStyles[blockValue]
+                    this._ctx.fillRect(x+1, y+1, this.blockWidth-2, this.blockHeight-2)
+                }
             }
         }
     }
