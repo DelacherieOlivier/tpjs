@@ -1,0 +1,34 @@
+{
+  "name": "tpjs",
+  "version": "0.0.1",
+  "description": "",
+  "main": "public/scripts/index.js",
+  "scripts": {
+    "test": "exit 0",
+    "build": "tsc",
+    "build:watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DelacherieOlivier/tpjs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DelacherieOlivier/tpjs/issues"
+  },
+  "homepage": "https://github.com/DelacherieOlivier/tpjs#readme",
+  "dependencies": {
+    "@types/chai": "^4.2.22",
+    "@types/express": "^4.17.13",
+    "@types/mocha": "^9.0.0",
+    "chai": "^4.3.4",
+    "express": "^4.17.1",
+    "mocha": "^9.1.3",
+    "mochawesome": "^7.0.1",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  }
+}
