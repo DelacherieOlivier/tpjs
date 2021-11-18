@@ -55,7 +55,7 @@ function init() {
         lastTime = newTime;
     }
     setInterval(render, delay);
-    const blockStyles = { 1: "rgba(238,68,0,1.0)" };
+    const blockStyles = { 1: "rgba(238,68,0,1.0)", 0: "rgba(0,0,0,0.0)" };
     const grille = new Grille({
         canvas: mapCanvas,
         data: [
