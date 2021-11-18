@@ -20,7 +20,7 @@ function Bench(){
 console.log(Bench());
 
 */
-
+/*
 const problemesFaciles: {
     [objectifs: string]: Array<string>;
 } = {
@@ -32,34 +32,51 @@ const problemesFaciles: {
 const problemesDifficile: {
     [objectifs: string]: Array<string>;
 } = {
-    "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef": ["e","ee", "eee", "eeee", "eeeee", "eeeeee", "eeeeeeee"],
+    "eeeeeeeeeeeeeeeeeeeeeeeeef": ["e","ee", "eee", "eeee", "eeeee", "eeeeee", "eeeeeeee"],
 };
 
-type ConstructionPossible =
-    (objectifs: string, alphabet: Array<string>) => boolean;
+type constructionPossible = (objectifs: string, alphabet: Array<string>) => boolean;
 
-const constructionsPossibles: ConstructionPossible
-    = (objectifs:string, alphabet: Array<string>): boolean => {
-    if (objectifs === "") {
-        return true;
-    }
-    for(let element of alphabet) {
-        if (objectifs.indexOf(element) === 0) {
-            const reste = objectifs.slice(element.length);
-            if (constructionsPossibles(reste, alphabet)) {
-                return true;
+function constructionPossible (
+    objectif: string,
+    alphabet: Array<string>,
+    memo: { [objectifs: string]: boolean } = {}
+): boolean {
+    if (objectif in memo) return memo[objectif]
+    if (objectif === "") return true
+    for (let piece of alphabet) {
+        if (objectif.indexOf(piece) === 0) {
+            const reste = objectif.slice(piece.length)
+            if (constructionPossible(reste, alphabet, memo)) {
+                memo[objectif] = true
+                return true
             }
         }
     }
-    return false;
+    memo[objectif] = false
+    return false
 }
 
 function bench (problemes: {[p: string]: Array<string>}){
     for (const objectif in problemes){
         const alphabet = problemes[objectif]
-        console.log(`"${objectif}" -> ${constructionsPossibles(objectif,alphabet)}`);
+        console.log(`"${objectif}" -> ${constructionPossible(objectif,alphabet)}`);
     }
 }
 
 
 console.log(bench(problemesFaciles));
+console.log(bench(problemesDifficile));
+*/
+
+import path from "path"
+import express from "express"
+
+const __dirname = path.resolve()
+const srv = express()
+srv.get("/", (_req, res) => res.sendFile(path.join(__dirname, "public", "index.html")))
+srv.get("/:file", (req, res) => res.sendFile(path.join(__dirname, "public", req.params["file"])))
+srv.get("/scripts/:file", (req, res) => res.sendFile(path.join(__dirname, "public", "scripts", req.params["file"])))
+const port = 3000
+srv.listen(port, () => console.log(`Serveur en écoute sur http://127.0.0.1:${port}`))
+

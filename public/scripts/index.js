@@ -1,4 +1,3 @@
-"use strict";
 /*
 const len: number = 10000000;
 const toto: Array<number> | number[] = Array(len);
@@ -21,34 +20,61 @@ function Bench(){
 console.log(Bench());
 
 */
-const problemesFaciles = {
+/*
+const problemesFaciles: {
+    [objectifs: string]: Array<string>;
+} = {
     "": ["bla", "bl", "a"],
     "abcdef": ["ab", "abc", "cd", "def", "abcd"],
     "skateboard": ["bo", "rd", "ate", "t", "ska", "sk", "boar"],
     "enterapotentpot": ["a", "p", "ent", "enter", "ot", "o", "t"],
 };
-const problemesDifficile = {
-    "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef": ["e", "ee", "eee", "eeee", "eeeee", "eeeeee", "eeeeeeee"],
+const problemesDifficile: {
+    [objectifs: string]: Array<string>;
+} = {
+    "eeeeeeeeeeeeeeeeeeeeeeeeef": ["e","ee", "eee", "eeee", "eeeee", "eeeeee", "eeeeeeee"],
 };
-const constructionsPossibles = (objectifs, alphabet) => {
-    if (objectifs === "") {
-        return true;
-    }
-    for (let element of alphabet) {
-        if (objectifs.indexOf(element) === 0) {
-            const reste = objectifs.slice(element.length);
-            if (constructionsPossibles(reste, alphabet)) {
-                return true;
+
+type constructionPossible = (objectifs: string, alphabet: Array<string>) => boolean;
+
+function constructionPossible (
+    objectif: string,
+    alphabet: Array<string>,
+    memo: { [objectifs: string]: boolean } = {}
+): boolean {
+    if (objectif in memo) return memo[objectif]
+    if (objectif === "") return true
+    for (let piece of alphabet) {
+        if (objectif.indexOf(piece) === 0) {
+            const reste = objectif.slice(piece.length)
+            if (constructionPossible(reste, alphabet, memo)) {
+                memo[objectif] = true
+                return true
             }
         }
     }
-    return false;
-};
-function bench(problemes) {
-    for (const objectif in problemes) {
-        const alphabet = problemes[objectif];
-        console.log(`"${objectif}" -> ${constructionsPossibles(objectif, alphabet)}`);
+    memo[objectif] = false
+    return false
+}
+
+function bench (problemes: {[p: string]: Array<string>}){
+    for (const objectif in problemes){
+        const alphabet = problemes[objectif]
+        console.log(`"${objectif}" -> ${constructionPossible(objectif,alphabet)}`);
     }
 }
+
+
 console.log(bench(problemesFaciles));
+console.log(bench(problemesDifficile));
+*/
+import path from "path";
+import express from "express";
+const __dirname = path.resolve();
+const srv = express();
+srv.get("/", (_req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
+srv.get("/:file", (req, res) => res.sendFile(path.join(__dirname, "public", req.params["file"])));
+srv.get("/scripts/:file", (req, res) => res.sendFile(path.join(__dirname, "public", "scripts", req.params["file"])));
+const port = 3000;
+srv.listen(port, () => console.log(`Serveur en écoute sur http://127.0.0.1:${port}`));
 //# sourceMappingURL=index.js.map
